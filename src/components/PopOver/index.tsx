@@ -1,7 +1,11 @@
-import { Button, Flex, Popover, createStyles } from "@mantine/core";
+import { Button, Flex, Popover, createStyles, Menu } from "@mantine/core";
 import { IconNews, IconMessages } from "@tabler/icons-react";
 import { quicks } from "@/assets/svg";
 import Image from "next/image";
+import { useState } from "react";
+import { useDisclosure } from "@mantine/hooks";
+import { Inbox } from "../Inbox";
+import { Task } from "../Task";
 
 const useStyles = createStyles((theme) => ({
   button: {
@@ -28,10 +32,29 @@ const useStyles = createStyles((theme) => ({
     bottom: 50,
     right: 150,
   },
+  modal: {
+    position: "fixed",
+    bottom: 100,
+    right: 50,
+    border: "1px solid",
+    borderColor: theme.colors.gray[4],
+    borderRadius: 10,
+    // right: 0,
+  },
 }));
+
+// type Props = {
+//   setOpenedChat:Boolean,
+//   setOpenedTask:Boolean
+// }
 
 export const PopOver = () => {
   const { classes, cx } = useStyles();
+  const [openedInbox, { open: openInbox, close: closeInbox }] =
+    useDisclosure(false);
+  const [openedTask, { open: openTask, close: closeTask }] =
+    useDisclosure(false);
+
   return (
     <>
       <Popover position="left" unstyled>
@@ -42,21 +65,55 @@ export const PopOver = () => {
         </Popover.Target>
         <Popover.Dropdown>
           <Flex gap="md">
-            <Button
-              className={cx(classes.button, classes.item)}
-              style={{ backgroundColor: "#8785FF" }}
-            >
-              <IconMessages />
-            </Button>
-            <Button
+            <Menu opened={openedInbox} onClose={closeInbox} unstyled>
+              <Menu.Target>
+                <Button
+                  onClick={openInbox}
+                  className={cx(classes.button, classes.item)}
+                  style={{ backgroundColor: "#8785FF" }}
+                >
+                  <IconMessages />
+                </Button>
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Flex w={500} className={classes.modal}>
+                  <Inbox />
+                </Flex>
+              </Menu.Dropdown>
+            </Menu>
+            <Menu opened={openedTask} onClose={closeTask} unstyled>
+              <Menu.Target>
+                <Button
+                  onClick={openTask}
+                  className={cx(classes.button, classes.item2)}
+                  style={{ backgroundColor: "#F8B76B" }}
+                >
+                  <IconNews />
+                </Button>
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Flex w={500} className={classes.modal}>
+                  <Task />
+                </Flex>
+              </Menu.Dropdown>
+            </Menu>
+            {/* <Button
               className={cx(classes.button, classes.item2)}
               style={{ backgroundColor: "#F8B76B" }}
             >
               <IconNews />
-            </Button>
+            </Button> */}
           </Flex>
         </Popover.Dropdown>
       </Popover>
+
+      {/* <Modal
+          opened={opened}
+          onClose={close}
+       
+        >
+          <p>halo</p>
+        </Modal> */}
     </>
   );
 };
