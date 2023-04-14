@@ -43,12 +43,11 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-// type Props = {
-//   setOpenedChat:Boolean,
-//   setOpenedTask:Boolean
-// }
+type Props = {
+  dataTask: TEntity.Task[];
+};
 
-export const PopOver = () => {
+export const PopOver = ({ dataTask }: Props) => {
   const { classes, cx } = useStyles();
   const [openedInbox, { open: openInbox, close: closeInbox }] =
     useDisclosure(false);
@@ -93,7 +92,7 @@ export const PopOver = () => {
               </Menu.Target>
               <Menu.Dropdown>
                 <Flex w={500} className={classes.modal}>
-                  <Task />
+                  <Task dataTask={dataTask} />
                 </Flex>
               </Menu.Dropdown>
             </Menu>
