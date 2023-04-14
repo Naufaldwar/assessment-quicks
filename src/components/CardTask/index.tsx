@@ -6,9 +6,9 @@ import {
   Input,
   Text,
   TextInput,
-  UnstyledButton,
+  createStyles,
 } from "@mantine/core";
-import { DateInput, DatePicker } from "@mantine/dates";
+import { DateInput } from "@mantine/dates";
 import {
   IconCalendar,
   IconClock,
@@ -19,6 +19,14 @@ import { useState } from "react";
 type Props = {
   dataTask: TEntity.Task;
 };
+
+const useStyles = createStyles((theme) => ({
+  check: {
+    textDecoration: "line-through black",
+    color: theme.colors.gray[6],
+  },
+}));
+
 export const CardTask = ({ dataTask }: Props) => {
   // const newDate = new Date(dataTask.date);
   // const [value, setValue] = useState(newDate);
@@ -68,13 +76,31 @@ export const CardTask = ({ dataTask }: Props) => {
     setDataDesc(e.target.value);
   };
 
+  const handleCek = () => {
+    if (data.status === "done") {
+      setData({ ...data, status: "todo" });
+    } else {
+      setData({ ...data, status: "done" });
+    }
+  };
+
+  const { classes } = useStyles();
   return (
     <div>
       {data ? (
         <Flex direction="column">
           <Flex mt="lg" justify="space-between" align="center">
             {data?.title ? (
-              <Checkbox label={data?.title} />
+              <Checkbox
+                onClick={handleCek}
+                label={
+                  <Text
+                    className={data?.status === "done" ? classes.check : ""}
+                  >
+                    {data?.title}
+                  </Text>
+                }
+              />
             ) : (
               <Flex gap="md" align="center">
                 <Checkbox />
@@ -88,7 +114,7 @@ export const CardTask = ({ dataTask }: Props) => {
             )}
             <Flex gap="sm">
               {currentDate < selectedDate ? (
-                <Text fz="xs">{diffDays} hari lagi</Text>
+                <Text fz="xs">{diffDays} days left</Text>
               ) : (
                 <Text fz="xs">Expired</Text>
               )}

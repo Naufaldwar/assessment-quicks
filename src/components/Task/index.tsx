@@ -17,8 +17,8 @@ export const Task = ({ dataTask }: Props) => {
         id: e + 1,
         title: "",
         description: "",
-        status: "",
-        date: "2023 01 01",
+        status: "todo",
+        date: new Date(),
       },
     ];
     setData([...data, ...newData]);
