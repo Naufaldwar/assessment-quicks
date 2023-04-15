@@ -3,7 +3,7 @@ declare namespace TEntity {
         id: number;
         title: string;
         description: string;
-        status: string;
+        status: string
         date: date;
 
     };

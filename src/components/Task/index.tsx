@@ -24,6 +24,8 @@ export const Task = ({ dataTask }: Props) => {
     setData([...data, ...newData]);
   };
 
+  // console.log(data);
+
   return (
     <Flex p="md" w={500} direction="column">
       <Flex justify="space-between">

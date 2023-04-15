@@ -41,12 +41,13 @@ export const CardTask = ({ dataTask }: Props) => {
 
   const handleDateChange = (value: any) => {
     setSelectedDate(value);
+    setData({ ...data, date: value });
   };
 
   const handleDelete = () => {
-    setData(null);
+    setData({ ...data, status: "deleted" });
   };
-  console.log(data);
+  // console.log(data);
 
   const handleSubmit = (value: any) => {
     setData({ ...data, title: value.target.value });
@@ -87,12 +88,14 @@ export const CardTask = ({ dataTask }: Props) => {
   const { classes } = useStyles();
   return (
     <div>
-      {data ? (
+      {data && data.status !== "deleted" ? (
         <Flex direction="column">
           <Flex mt="lg" justify="space-between" align="center">
             {data?.title ? (
               <Checkbox
+                // checked={data?.status === "done"}
                 onClick={handleCek}
+                defaultChecked={data?.status === "done"}
                 label={
                   <Text
                     className={data?.status === "done" ? classes.check : ""}
@@ -116,7 +119,9 @@ export const CardTask = ({ dataTask }: Props) => {
               {currentDate < selectedDate ? (
                 <Text fz="xs">{diffDays} days left</Text>
               ) : (
-                <Text fz="xs">Expired</Text>
+                <Text fz="xs" style={{ color: "red" }}>
+                  Expired
+                </Text>
               )}
               <Text fz="xs">{selectedDate.toDateString()}</Text>
               <Box
