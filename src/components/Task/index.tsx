@@ -44,11 +44,6 @@ export const Task = ({ dataTask }: Props) => {
           <CardTask dataTask={item} key={index} />
         ))}
       </ScrollArea>
-      {/* <p>
-        {data.map((item) => (
-          <p>{item.title}</p>
-        ))}
-      </p> */}
     </Flex>
   );
 };
