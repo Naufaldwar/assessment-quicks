@@ -46,7 +46,7 @@ const useStyles = createStyles((theme) => ({
   modal: {
     width: 500,
     [theme.fn.smallerThan("md")]: {
-      width: 325,
+      width: 300,
     },
     position: "fixed",
     bottom: 100,

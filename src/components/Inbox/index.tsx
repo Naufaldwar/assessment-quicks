@@ -16,6 +16,11 @@ const useStyles = createStyles((theme) => ({
       height: 400,
     },
   },
+  font: {
+    [theme.fn.smallerThan("md")]: {
+      fontSize: 10,
+    },
+  },
 }));
 
 export const Inbox = ({ dataChat, onChatRoomSelect }: Props) => {
