@@ -1,7 +1,12 @@
 import { Box, Divider, Flex, Text } from "@mantine/core";
 import { IconUser } from "@tabler/icons-react";
 
-export const CardChat = () => {
+type Props = {
+  dataChat: TEntity.Chatlist;
+  idRoom: number;
+};
+
+export const CardChat = ({ dataChat }: Props) => {
   const handleClick = () => {
     console.log("click");
   };
@@ -11,7 +16,7 @@ export const CardChat = () => {
         align="center"
         gap="md"
         style={{ cursor: "pointer" }}
-        onClick={handleClick}
+        // onClick={handleClick}
       >
         <Box
           sx={(theme) => ({
@@ -29,7 +34,7 @@ export const CardChat = () => {
         <Flex direction="column">
           <Flex gap="">
             <Text size="xs" sx={(theme) => ({ color: theme.colors.blue[6] })}>
-              Nopaldwar
+              {dataChat.name}
             </Text>
             <Text size="xs">January 1,2021 19.10</Text>
           </Flex>

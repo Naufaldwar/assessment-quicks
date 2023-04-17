@@ -13,4 +13,16 @@ declare namespace TEntity {
         tasks: Task[] | null;
     };
 
+    type Chatlist = {
+        id: number;
+        name: string;
+        messages: Messasges[] | null;
+    };
+
+    type Messages = {
+        id: number;
+        sender: string;
+        text: string;
+        date: date;
+    };
 }

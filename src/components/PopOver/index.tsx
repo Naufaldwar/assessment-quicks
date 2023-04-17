@@ -1,11 +1,22 @@
-import { Button, Flex, Popover, createStyles, Menu } from "@mantine/core";
-import { IconNews, IconMessages } from "@tabler/icons-react";
+import {
+  Button,
+  Flex,
+  Popover,
+  createStyles,
+  Menu,
+  Input,
+  Box,
+  ScrollArea,
+} from "@mantine/core";
+import { IconNews, IconMessages, IconSearch } from "@tabler/icons-react";
 import { quicks } from "@/assets/svg";
 import Image from "next/image";
 import { useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { Inbox } from "../Inbox";
 import { Task } from "../Task";
+import { Chat } from "../Chat";
+import { CardChat } from "../CardChat";
 
 const useStyles = createStyles((theme) => ({
   button: {
@@ -45,14 +56,25 @@ const useStyles = createStyles((theme) => ({
 
 type Props = {
   dataTask: TEntity.Task[];
+  dataChat: TEntity.Chatlist[];
 };
 
-export const PopOver = ({ dataTask }: Props) => {
+export const PopOver = ({ dataTask, dataChat }: Props) => {
   const { classes, cx } = useStyles();
   const [openedInbox, { open: openInbox, close: closeInbox }] =
     useDisclosure(false);
   const [openedTask, { open: openTask, close: closeTask }] =
     useDisclosure(false);
+
+  const [currentChatRoom, setCurrentChatRoom] = useState<number>(0);
+
+  const handleChatRoomSelect = (chatRoom: number) => {
+    setCurrentChatRoom(chatRoom);
+  };
+
+  const handleBackClick = () => {
+    setCurrentChatRoom(0);
+  };
 
   return (
     <>
@@ -76,7 +98,39 @@ export const PopOver = ({ dataTask }: Props) => {
               </Menu.Target>
               <Menu.Dropdown>
                 <Flex w={500} className={classes.modal}>
-                  <Inbox />
+                  {currentChatRoom ? (
+                    <Chat onBackClick={handleBackClick} />
+                  ) : (
+                    <Inbox
+                      dataChat={dataChat}
+                      onChatRoomSelect={handleChatRoomSelect}
+                    />
+                  )}
+                  {/* <Flex p="md" w={500} direction="column" gap="lg">
+                    <Input
+                      rightSection={
+                        <Box
+                          style={{
+                            alignContent: "center",
+                            display: "flex",
+                            cursor: "pointer",
+                          }}
+                        >
+                          <IconSearch size={18} />
+                        </Box>
+                      }
+                      // icon={<IconSearch size={18} />}
+                      placeholder="Search"
+                    />
+                    <ScrollArea h={500}>
+                      <Flex direction="column" gap="sm">
+                        {dataChat.map((item) => (
+                          <CardChat dataChat={item} />
+                        ))}
+                      </Flex>
+                    </ScrollArea>
+                  </Flex> */}
+                  {/* <Chat /> */}
                 </Flex>
               </Menu.Dropdown>
             </Menu>
@@ -96,23 +150,9 @@ export const PopOver = ({ dataTask }: Props) => {
                 </Flex>
               </Menu.Dropdown>
             </Menu>
-            {/* <Button
-              className={cx(classes.button, classes.item2)}
-              style={{ backgroundColor: "#F8B76B" }}
-            >
-              <IconNews />
-            </Button> */}
           </Flex>
         </Popover.Dropdown>
       </Popover>
-
-      {/* <Modal
-          opened={opened}
-          onClose={close}
-       
-        >
-          <p>halo</p>
-        </Modal> */}
     </>
   );
 };
