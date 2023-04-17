@@ -1,6 +1,22 @@
-import { Button, Checkbox, Flex, ScrollArea, Select } from "@mantine/core";
+import {
+  Button,
+  Checkbox,
+  Flex,
+  ScrollArea,
+  Select,
+  createStyles,
+} from "@mantine/core";
 import { CardTask } from "../CardTask";
 import { useState } from "react";
+
+const useStyles = createStyles((theme) => ({
+  scroll: {
+    height: 500,
+    [theme.fn.smallerThan("md")]: {
+      height: 400,
+    },
+  },
+}));
 
 type Props = {
   // dataTaskBaru: TEntity.Task ;
@@ -8,6 +24,7 @@ type Props = {
 };
 
 export const Task = ({ dataTask }: Props) => {
+  const { classes } = useStyles();
   const [data, setData] = useState(dataTask);
   const lenghtData = data.length;
 
@@ -28,8 +45,9 @@ export const Task = ({ dataTask }: Props) => {
 
   return (
     <Flex p="md" w={500} direction="column">
-      <Flex justify="space-between">
+      <Flex justify="space-between" pb="sm">
         <Select
+          sx={(theme) => ({ [theme.fn.smallerThan("md")]: { width: 150 } })}
           // label="Your favorite framework/library"
           placeholder="My Task"
           data={[
@@ -39,7 +57,7 @@ export const Task = ({ dataTask }: Props) => {
         />
         <Button onClick={() => handleAddTask(lenghtData)}>New Task</Button>
       </Flex>
-      <ScrollArea h={500}>
+      <ScrollArea className={classes.scroll}>
         {data.map((item, index) => (
           <CardTask dataTask={item} key={index} />
         ))}

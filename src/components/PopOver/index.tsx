@@ -44,6 +44,10 @@ const useStyles = createStyles((theme) => ({
     right: 150,
   },
   modal: {
+    width: 500,
+    [theme.fn.smallerThan("md")]: {
+      width: 325,
+    },
     position: "fixed",
     bottom: 100,
     right: 50,
@@ -66,14 +70,14 @@ export const PopOver = ({ dataTask, dataChat }: Props) => {
   const [openedTask, { open: openTask, close: closeTask }] =
     useDisclosure(false);
 
-  const [currentChatRoom, setCurrentChatRoom] = useState<number>(0);
+  const [currentChatRoom, setCurrentChatRoom] = useState<TEntity.Chatlist>();
 
-  const handleChatRoomSelect = (chatRoom: number) => {
+  const handleChatRoomSelect = (chatRoom: TEntity.Chatlist) => {
     setCurrentChatRoom(chatRoom);
   };
 
   const handleBackClick = () => {
-    setCurrentChatRoom(0);
+    setCurrentChatRoom(undefined);
   };
 
   return (
@@ -97,40 +101,18 @@ export const PopOver = ({ dataTask, dataChat }: Props) => {
                 </Button>
               </Menu.Target>
               <Menu.Dropdown>
-                <Flex w={500} className={classes.modal}>
+                <Flex className={classes.modal}>
                   {currentChatRoom ? (
-                    <Chat onBackClick={handleBackClick} />
+                    <Chat
+                      messages={currentChatRoom}
+                      onBackClick={handleBackClick}
+                    />
                   ) : (
                     <Inbox
                       dataChat={dataChat}
                       onChatRoomSelect={handleChatRoomSelect}
                     />
                   )}
-                  {/* <Flex p="md" w={500} direction="column" gap="lg">
-                    <Input
-                      rightSection={
-                        <Box
-                          style={{
-                            alignContent: "center",
-                            display: "flex",
-                            cursor: "pointer",
-                          }}
-                        >
-                          <IconSearch size={18} />
-                        </Box>
-                      }
-                      // icon={<IconSearch size={18} />}
-                      placeholder="Search"
-                    />
-                    <ScrollArea h={500}>
-                      <Flex direction="column" gap="sm">
-                        {dataChat.map((item) => (
-                          <CardChat dataChat={item} />
-                        ))}
-                      </Flex>
-                    </ScrollArea>
-                  </Flex> */}
-                  {/* <Chat /> */}
                 </Flex>
               </Menu.Dropdown>
             </Menu>
@@ -145,7 +127,7 @@ export const PopOver = ({ dataTask, dataChat }: Props) => {
                 </Button>
               </Menu.Target>
               <Menu.Dropdown>
-                <Flex w={500} className={classes.modal}>
+                <Flex className={classes.modal}>
                   <Task dataTask={dataTask} />
                 </Flex>
               </Menu.Dropdown>

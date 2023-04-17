@@ -25,6 +25,11 @@ const useStyles = createStyles((theme) => ({
     textDecoration: "line-through black",
     color: theme.colors.gray[6],
   },
+  font: {
+    [theme.fn.smallerThan("md")]: {
+      fontSize: 10,
+    },
+  },
 }));
 
 export const CardTask = ({ dataTask }: Props) => {
@@ -108,6 +113,10 @@ export const CardTask = ({ dataTask }: Props) => {
               <Flex gap="md" align="center">
                 <Checkbox />
                 <Input
+                  sx={(theme) => ({
+                    [theme.fn.smallerThan("md")]: { width: "100px" },
+                    fontSize: 10,
+                  })}
                   placeholder="Title"
                   value={dataTitle}
                   onChange={handleChange}
@@ -119,11 +128,13 @@ export const CardTask = ({ dataTask }: Props) => {
               {currentDate < selectedDate ? (
                 <Text fz="xs">{diffDays} days left</Text>
               ) : (
-                <Text fz="xs" style={{ color: "red" }}>
+                <Text className={classes.font} fz="xs" style={{ color: "red" }}>
                   Expired
                 </Text>
               )}
-              <Text fz="xs">{selectedDate.toDateString()}</Text>
+              <Text className={classes.font} fz="xs">
+                {selectedDate.toDateString()}
+              </Text>
               <Box
                 sx={(theme) => ({
                   display: "flex",

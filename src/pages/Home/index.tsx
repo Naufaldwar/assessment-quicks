@@ -15,15 +15,38 @@ export default function HomePage() {
 
   const dataChat = [
     {
-      id: 1, // ID unik untuk setiap chat room
-      name: "Jane Doe", // Nama pengguna lain yang sedang diajak chatting
-      // avatar: "https://example.com/avatar.jpg", // URL gambar avatar pengguna lain
+      id: 1,
+      name: "Asep",
       messages: [
         {
-          id: 1, // ID unik untuk setiap pesan
-          sender: "me", // Identitas pengirim pesan (dapat berupa "me" atau nama pengguna lain)
-          text: "Hi there!", // Teks pesan
-          date: "2022-04-17T08:30:00.000Z", // Waktu pengiriman pesan (dalam format ISO 8601)
+          id: 1,
+          sender: "Me",
+          text: "hai",
+          date: "2022-04-17T08:30:00.000Z",
+        },
+        {
+          id: 2,
+          sender: "Asep",
+          text: "Hey! How are you doing?",
+          date: "2022-04-17T08:32:00.000Z",
+        },
+        {
+          id: 3,
+          sender: "Me",
+          text: "I'm doing great, thanks for asking!",
+          date: "2022-04-17T08:35:00.000Z",
+        },
+      ],
+    },
+    {
+      id: 2,
+      name: "Jane Doe",
+      messages: [
+        {
+          id: 1,
+          sender: "Me",
+          text: "hai",
+          date: "2022-04-17T08:30:00.000Z",
         },
         {
           id: 2,
@@ -33,7 +56,7 @@ export default function HomePage() {
         },
         {
           id: 3,
-          sender: "me",
+          sender: "Me",
           text: "I'm doing great, thanks for asking!",
           date: "2022-04-17T08:35:00.000Z",
         },

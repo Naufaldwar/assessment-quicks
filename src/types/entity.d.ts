@@ -16,7 +16,7 @@ declare namespace TEntity {
     type Chatlist = {
         id: number;
         name: string;
-        messages: Messasges[] | null;
+        messages: Messages[];
     };
 
     type Messages = {

@@ -9,7 +9,6 @@ import {
   createStyles,
 } from "@mantine/core";
 import { IconArrowNarrowLeft, IconX } from "@tabler/icons-react";
-import { type } from "os";
 import { useState } from "react";
 
 const useStyles = createStyles((theme) => ({
@@ -17,19 +16,26 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: theme.colors.red[2],
     padding: theme.spacing.xs,
   },
+  paper1: {
+    backgroundColor: theme.colors.green[2],
+    padding: theme.spacing.xs,
+  },
+  scroll: {
+    height: 450,
+    [theme.fn.smallerThan("md")]: {
+      height: 300,
+    },
+  },
 }));
 
 type Props = {
   onBackClick: () => void;
+  messages: TEntity.Chatlist;
 };
 
-export const Chat = ({ onBackClick }: Props) => {
+export const Chat = ({ onBackClick, messages }: Props) => {
   const { classes } = useStyles();
-  const [messages, setMessages] = useState([
-    { id: 1, text: "Hi there!" },
-    { id: 2, text: "How are you doing?" },
-    { id: 3, text: "What are your plans for the weekend?" },
-  ]);
+  const [message, setMessage] = useState<TEntity.Chatlist>(messages);
 
   const [newMessage, setNewMessage] = useState("");
 
@@ -41,11 +47,13 @@ export const Chat = ({ onBackClick }: Props) => {
     event.preventDefault();
 
     const newMessageObj = {
-      id: messages.length + 1,
+      id: message.messages.length + 1,
+      sender: "Me",
       text: newMessage,
+      date: new Date(),
     };
 
-    setMessages([...messages, newMessageObj]);
+    setMessage({ ...message, messages: [...message.messages, newMessageObj] });
     setNewMessage("");
   };
 
@@ -74,15 +82,15 @@ export const Chat = ({ onBackClick }: Props) => {
           >
             <IconArrowNarrowLeft />
           </Box>
-          <Flex direction="column">
+          <Flex direction="column" justify="center">
             <Text
               fw="bolder"
               sx={(theme) => ({ color: theme.colors.blue[6] })}
               size="xs"
             >
-              Nopaldwar
+              {messages.name}
             </Text>
-            <Text size="xs">3 participants</Text>
+            {/* <Text size="xs">3 participants</Text> */}
           </Flex>
         </Flex>
 
@@ -96,53 +104,62 @@ export const Chat = ({ onBackClick }: Props) => {
           <IconX />
         </Box>
       </Flex>
-      <ScrollArea px="md" h={450}>
-        <Flex direction="column-reverse" style={{ minHeight: 450 }}>
-          <Flex direction="column">
-            <Flex justify="end">
-              <Text size="sm" sx={(theme) => ({ color: theme.colors.red[6] })}>
-                You
-              </Text>
-            </Flex>
-            <Flex justify="end" w="100%">
-              <Paper
-                style={{ minWidth: 250, maxWidth: 350 }}
-                className={classes.paper}
+      <ScrollArea px="md" className={classes.scroll}>
+        <Flex direction="column" justify="end" style={{ minHeight: 450 }}>
+          {message.messages?.map((message: TEntity.Messages) => (
+            <Flex key={message.id} direction="column">
+              <Flex justify={message.sender === "Me" ? "end" : "start"}>
+                <Text
+                  size="xs"
+                  sx={
+                    message.sender === "Me"
+                      ? (theme) => ({ color: theme.colors.red[6] })
+                      : (theme) => ({ color: theme.colors.green[6] })
+                  }
+                >
+                  {message.sender}
+                </Text>
+              </Flex>
+              <Flex
+                justify={message.sender === "Me" ? "end" : "start"}
+                w="100%"
               >
-                <Text size="xs">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Recusandae ullam obcaecati dolor mollitia eaque distinctio,
-                  illo molestiae nesciunt in provident eius magni voluptate aut
-                  placeat voluptatum ut totam doloribus unde!
-                </Text>
-                <Text size="10px" mt="xs">
-                  12.00
-                </Text>
-              </Paper>
+                <Paper
+                  sx={(theme) => ({
+                    minWidth: 250,
+                    maxWidth: 350,
+                    [theme.fn.smallerThan("md")]: {
+                      minWidth: 200,
+                      maxWidth: 300,
+                    },
+                  })}
+                  className={
+                    message.sender === "Me" ? classes.paper : classes.paper1
+                  }
+                >
+                  <Text size="xs">{message.text}</Text>
+                  <Text size="10px" mt="xs">
+                    12.00
+                  </Text>
+                </Paper>
+              </Flex>
             </Flex>
-          </Flex>
+          ))}
         </Flex>
       </ScrollArea>
-      <Flex gap="sm" p="md">
-        <Input autoFocus placeholder="Type a new message" w="85%" />
-        <Button>Send</Button>
-      </Flex>
-      {/* <div>
-        <ul>
-          {messages.map((message) => (
-            <li key={message.id}>{message.text}</li>
-          ))}
-        </ul>
-        <form onSubmit={handleNewMessageSubmit}>
-          <input
-            type="text"
-            placeholder="Type your message here..."
-            value={newMessage}
-            onChange={handleNewMessageChange}
-          />
-          <button type="submit">Send</button>
-        </form>
-      </div> */}
+      <form
+        style={{ display: "flex", padding: 14, gap: 8 }}
+        onSubmit={handleNewMessageSubmit}
+      >
+        <Input
+          autoFocus
+          placeholder="Type a new message"
+          w="85%"
+          value={newMessage}
+          onChange={handleNewMessageChange}
+        />
+        <Button type="submit">Send</Button>
+      </form>
     </Flex>
   );
 };
