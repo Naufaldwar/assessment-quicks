@@ -13,7 +13,7 @@ const useStyles = createStyles((theme) => ({
   scroll: {
     height: 500,
     [theme.fn.smallerThan("md")]: {
-      height: 400,
+      height: 350,
     },
   },
 }));
