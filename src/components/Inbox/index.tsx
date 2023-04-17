@@ -1,8 +1,11 @@
-import { Box, Flex, Input } from "@mantine/core";
+import { Box, Flex, Input, ScrollArea } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
 import { CardChat } from "../CardChat";
 
 export const Inbox = () => {
+  const handleCardChat = () => {
+    console.log("click");
+  };
   return (
     <>
       <Flex p="md" w={500} direction="column" gap="lg">
@@ -21,7 +24,11 @@ export const Inbox = () => {
           // icon={<IconSearch size={18} />}
           placeholder="Search"
         />
-        <CardChat />
+        <ScrollArea h={500}>
+          <Flex direction="column" gap="sm">
+            <CardChat />
+          </Flex>
+        </ScrollArea>
       </Flex>
     </>
   );

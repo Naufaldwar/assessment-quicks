@@ -1,13 +1,18 @@
-import { Box, Flex, createStyles } from "@mantine/core";
+import { Box, Divider, Flex, Text } from "@mantine/core";
 import { IconUser } from "@tabler/icons-react";
 
-const useStyles = createStyles((theme) => ({}));
-
 export const CardChat = () => {
-  const { classes, cx } = useStyles();
+  const handleClick = () => {
+    console.log("click");
+  };
   return (
     <>
-      <Flex>
+      <Flex
+        align="center"
+        gap="md"
+        style={{ cursor: "pointer" }}
+        onClick={handleClick}
+      >
         <Box
           sx={(theme) => ({
             backgroundColor: theme.colors.blue[6],
@@ -21,7 +26,20 @@ export const CardChat = () => {
         >
           <IconUser color="white" />
         </Box>
+        <Flex direction="column">
+          <Flex gap="">
+            <Text size="xs" sx={(theme) => ({ color: theme.colors.blue[6] })}>
+              Nopaldwar
+            </Text>
+            <Text size="xs">January 1,2021 19.10</Text>
+          </Flex>
+          <Text size="xs">Joko :</Text>
+          <Text size="xs">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.{" "}
+          </Text>
+        </Flex>
       </Flex>
+      <Divider />
     </>
   );
 };
